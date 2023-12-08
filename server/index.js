@@ -1,18 +1,22 @@
-// server/index.js
+const express = require("express");
 const path = require('path');
-const express = require('express');
+const PORT = process.env.PORT || 3001;
 
-...
+const app = express();
 
-// Hacer que node sirva los archivos de nuestro app React
+// Have Node serve the files for our built React app
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
-// Manejar las peticiones GET en la ruta /api
+// Handle GET requests to /api route
 app.get("/api", (req, res) => {
   res.json({ message: "Hello from server!" });
 });
 
-// Todas las peticiones GET que no hayamos manejado en las líneas anteriores retornaran nuestro app React
+// All other GET requests not handled before will return our React app
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+});
+
+app.listen(PORT, () => {
+  console.log(`Server listening on ${PORT}`);
 });
