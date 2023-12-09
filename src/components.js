@@ -4,9 +4,8 @@ import {
 } from "react";
 
 export default function PlayerApp() {
-
- const [pCount, setCount] = useState
-  (0);
+ const [pCount, changeCount] =
+ useState(5);
 
  const colors = ["red",
   "darkOrchid",

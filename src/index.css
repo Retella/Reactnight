@@ -1,13 +1,79 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+h1 {
+ display: flex;
+ flex-direction: column;
+ 
+ background-color: LightSteelBlue;
+ color: black;
+ text-align: center;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body {
+ background-color: Dimgrey;
+}
+
+#playerPlace {
+display: flex;
+justify-content: space-evenly;
+
+background-color: Dimgrey;
+
+}
+
+#player {
+background-color: Lightgrey;
+color: white;
+
+text-align: center;
+
+width: 15%;
+height: 10%;
+}
+
+#chat {
+display: flex;
+flex-direction: column;
+justify-content: center;
+padding: 1%;
+margin: 1%;
+
+background-color: grey;
+}
+
+#messages {
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+ 
+ background-color: Lightgrey;
+ 
+ height: auto;
+ width: auto;
+}
+
+#textBox {
+ background-color: Dimgrey;
+ color: white;
+}
+
+#msg {
+display: flex;
+justify-content: space-between;
+
+ background-color: white;
+ color: black;
+ 
+ border-radius: 10px;
+ 
+ padding: 2px 5px 2px 5px;
+ margin: 2px 5px 2px 5px;
+}
+
+#msgText {
+ display: inline;
+ margin: 2px;
+}
+
+#msgName {
+ display: inline;
+ margin: 2px;
 }

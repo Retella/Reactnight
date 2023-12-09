@@ -13,6 +13,16 @@ export default function ChatApp() {
   ]
  ]);
 
+ const [username, setName] =
+ useState("");
+
+ const addMsg = () => {
+  changeMsg(messages + [document
+   .getElementById("textBox"),
+   username
+  ]);
+ }
+
  const msgArr = messages.map((
    m) =>
   <
