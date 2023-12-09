@@ -2,6 +2,9 @@ import React from "react";
 import {
  useState
 } from "react";
+import {
+ useEffect
+} from "react";
 
 export default function ChatApp() {
 
@@ -13,7 +16,7 @@ export default function ChatApp() {
  const [messages, changeMsg] =
  useState(demoMsg);
  const [username, setName] =
- useState("");
+ useState("guest");
 
  const addMsg = () => {
   changeMsg(messages + [document
@@ -21,8 +24,6 @@ export default function ChatApp() {
    username
   ]);
  }
-
-setName("guester")
 
  const msgArr = messages.map((
    m) =>
