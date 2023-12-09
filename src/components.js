@@ -22,7 +22,8 @@ export default function PlayerApp() {
    div id = "player"
    style = {
     {
-     backgroundColor: colors[i]
+     backgroundColor: colors[i],
+     width: 100/pCount + "%"
     }
    } > < p > <
    strong > TEST <
