@@ -5,8 +5,8 @@ import {
 
 export default function PlayerApp() {
 
- const [pCount, changeCount] =
- useState(5);
+ const [pCount, setCount] = useState
+  (0);
 
  const colors = ["red",
   "darkOrchid",

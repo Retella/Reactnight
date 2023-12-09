@@ -2,28 +2,16 @@ import React from "react";
 import {
  useState
 } from "react";
-import {
- useEffect
-} from "react";
 
 export default function ChatApp() {
 
- const demoMsg = [
-  ["Hi", "Obama"],
-  ["Bonjorno", "Francis"]
- ]
-
  const [messages, changeMsg] =
- useState(demoMsg);
- const [username, setName] =
- useState("guest");
-
- const addMsg = () => {
-  changeMsg(messages + [document
-   .getElementById("textBox"),
-   username
-  ]);
- }
+ useState([
+  ["Yo", "Joe mama"],
+  ["Give this man a beer",
+   "Joe Biden"
+  ]
+ ]);
 
  const msgArr = messages.map((
    m) =>
@@ -43,8 +31,6 @@ export default function ChatApp() {
  input id = "textBox" /
   >
   <
-  button onClick = {
-   addMsg
-  } > Send < /button> < /
+  button > Send < /button> < /
  div >
 }
