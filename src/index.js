@@ -6,6 +6,9 @@ import PlayerApp from "./components";
 
 import ChatApp from "./chat";
 
+import socketIO from 'socket.io-client';
+const socket = socketIO.connect('http://serverreactnight.onrender.com');
+
 class App extends React.Component {
 
  render() {
