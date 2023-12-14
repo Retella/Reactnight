@@ -3,11 +3,12 @@ import {
  useState
 } from "react";
 
-export default function PlayerApp() {
- const [pCount, changeCount] =
- useState(5);
+export default function PlayerApp(props) {
+ 
 
- const colors = ["red",
+const [daname, setName] = useState("Esperando...")
+
+const colors = ["red",
   "darkOrchid",
   "green", "blue", "orange",
   "pink", "gold", "peru",
@@ -16,19 +17,34 @@ export default function PlayerApp() {
 
  var arr = []
 
- for (let i = 0; i < pCount; i +=
+ for (let i = 0; i < props.pNum; i +=
   1) {
-  arr.push( <
-   div id = "player"
+ let elem = <
+   div id = "player" class="p{i}"
    style = {
     {
      backgroundColor: colors[i],
-     width: 100/pCount + "%"
+     width: 100/props.pNum + "%"
     }
    } > < p > <
-   strong > TEST <
+   strong > Esperando... <
    /strong> < /p > < /
-   div > );
+   div >
+  if (i == props.maplace - 1) {
+ elem = <
+   div id = "player" class="p{i}"
+   style = {
+    {
+     backgroundColor: colors[i],
+     width: 100/props.pNum + "%"
+    }
+   } > <input  placeholder="Introduce tu nombre" 
+onChange={(e) => setName(e.target.value)}/>< p > <
+   strong > {daname} <
+   /strong> < /p > < /
+   div >
+}
+  arr.push(elem);
  }
  return ( < div id =
   "playerPlace" > {

@@ -15,7 +15,7 @@ class App extends React.Component {
   return <div >
    <
    h1 > MINDNIGHT < /h1>  <
-  PlayerApp / >
+  PlayerApp pNum='5' maplace='2'/ >
    <
    ChatApp / >
    <
