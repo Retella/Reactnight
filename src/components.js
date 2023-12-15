@@ -7,6 +7,7 @@ export default function PlayerApp(props) {
  
 
 const [daname, setName] = useState("Esperando...")
+const [nSelected, select] = useState(false)
 
 const colors = ["red",
   "darkOrchid",
@@ -31,6 +32,13 @@ const colors = ["red",
    /strong> < /p > < /
    div >
   if (i == props.maplace - 1) {
+
+ let unMenu = <div><input placeholder="Introduce tu nombre"
+onChange={(e) => setName(e.target.value)}/><button
+onClick={() => select(true)}>Seleccionar</button></div>
+ if (nSelected) {
+ unMenu = <div style={{display:"none"}}></div>
+}
  elem = <
    div id = "player" class="p{i}"
    style = {
@@ -38,8 +46,7 @@ const colors = ["red",
      backgroundColor: colors[i],
      width: 100/props.pNum + "%"
     }
-   } > <input  placeholder="Introduce tu nombre" 
-onChange={(e) => setName(e.target.value)}/>< p > <
+   } > {unMenu} < p > <
    strong > {daname} <
    /strong> < /p > < /
    div >

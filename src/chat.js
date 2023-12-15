@@ -34,6 +34,6 @@ export default function ChatApp() {
  input id = "textBox" /
   >
   <
-  button onClick={addMsg} > Send < /button> < /
+  button onClick={addMsg} > Enviar < /button> < /
  div >
 }
