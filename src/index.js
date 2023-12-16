@@ -7,7 +7,7 @@ import PlayerApp from "./components";
 import ChatApp from "./chat";
 
 import socketIO from 'socket.io-client';
-const socket = socketIO.connect('http://serverreactnight.onrender.com');
+const socket = socketIO.connect('http://localhost:5001');
 
 class App extends React.Component {
 
@@ -15,9 +15,9 @@ class App extends React.Component {
   return <div >
    <
    h1 > MINDNIGHT < /h1>  <
-  PlayerApp pNum='5' maplace='2'/ >
+  PlayerApp pNum='5' maplace='2' socket={socket}/ >
    <
-   ChatApp / >
+   ChatApp socket={socket}/ >
    <
    /
   div >

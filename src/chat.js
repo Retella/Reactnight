@@ -2,20 +2,24 @@ import React from "react";
 import {useState} from "react";
 import {useEffect} from "react";
 
-export default function ChatApp() {
+export default function ChatApp(props) {
 
  const [messages, changeMsg] =
  useState([["Hi","guy1"],["Yo","guy2"]]);
+const [damsg, setdamsg] = useState("")
 
- const [username, setName] =
- useState("guester");
+useEffect(() => {
+ props.socket.on("message", (data) => {
+  changeMsg((a) => [...a, [data["text"], "guester"]]);
+ })
+}, [messages])
 
- const addMsg = () => {
-  const elem = document.getElementById("textBox");
-  if (elem.value) {
-  changeMsg((a) => [...a, [elem.value, username]]);
-  }
+const sendMsg = () => {
+if (damsg != "") {
+props.socket.emit("sendMessage", {text: damsg})
+setdamsg("")
  }
+}
 
  const msgArr = messages.map((
  m) => 
@@ -31,9 +35,10 @@ export default function ChatApp() {
   div id = "messages" > {
    msgArr
   } < /div > <
- input id = "textBox" /
-  >
+ input id = "textBox" 
+onChange={(e) => setdamsg(e.target.value)}
+value={damsg}/>
   <
-  button onClick={addMsg} > Enviar < /button> < /
+  button onClick={sendMsg} > Enviar < /button> < /
  div >
 }

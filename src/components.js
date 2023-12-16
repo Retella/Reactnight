@@ -1,20 +1,31 @@
 import React from "react";
-import {
- useState
-} from "react";
+import {useState} from "react";
+import {useEffect} from "react";
 
 export default function PlayerApp(props) {
- 
 
 const [daname, setName] = useState("Esperando...")
 const [nSelected, select] = useState(false)
-
+const [users, setUsers] =
+useState(Array.apply(null, Array(10)).map(_ => 'Esperando...'))
+/*
+useEffect(() => {
+ props.socket.on("newUserResponse", (data) => {
+   setUsers(data["usernames"])
+ })
+})
+*/
 const colors = ["red",
   "darkOrchid",
   "green", "blue", "orange",
   "pink", "gold", "peru",
   "skyblue", "palegreen"
  ]
+
+const sendUser = () => {
+ select(true)
+ props.socket.emit("newUser", {user: daname})
+}
 
  var arr = []
 
@@ -28,14 +39,14 @@ const colors = ["red",
      width: 100/props.pNum + "%"
     }
    } > < p > <
-   strong > Esperando... <
+   strong > {users[i]} <
    /strong> < /p > < /
    div >
   if (i == props.maplace - 1) {
 
  let unMenu = <div><input placeholder="Introduce tu nombre"
 onChange={(e) => setName(e.target.value)}/><button
-onClick={() => select(true)}>Seleccionar</button></div>
+onClick={sendUser}>Seleccionar</button></div>
  if (nSelected) {
  unMenu = <div style={{display:"none"}}></div>
 }
