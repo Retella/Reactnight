@@ -8,13 +8,13 @@ const [daname, setName] = useState("Esperando...")
 const [nSelected, select] = useState(false)
 const [users, setUsers] =
 useState(Array.apply(null, Array(10)).map(_ => 'Esperando...'))
-/*
+
 useEffect(() => {
  props.socket.on("newUserResponse", (data) => {
    setUsers(data["usernames"])
  })
 })
-*/
+
 const colors = ["red",
   "darkOrchid",
   "green", "blue", "orange",
@@ -29,8 +29,11 @@ const sendUser = () => {
 
  var arr = []
 
- for (let i = 0; i < props.pNum; i +=
+ for (let i = 0; i < users.length; i +=
   1) {
+
+ const userIndex = (i < props.maplace - 1)? i:i+1
+
  let elem = <
    div id = "player" class="p{i}"
    style = {
@@ -39,7 +42,7 @@ const sendUser = () => {
      width: 100/props.pNum + "%"
     }
    } > < p > <
-   strong > {users[i]} <
+   strong > {users[userIndex]} <
    /strong> < /p > < /
    div >
   if (i == props.maplace - 1) {

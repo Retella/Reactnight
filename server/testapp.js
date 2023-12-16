@@ -17,15 +17,19 @@ const io = socketIo(server, {
 });
 
 const idList = {}
+const placeList = []
 
 io.on('connection', (socket) => {
-    console.log('New user connected');
+    placeList.push(socket.id) 
+    socket.emit("newGuy", {place: placeList.indexOf(socket.id) + 1})
+    console.log(placeList)
 
     socket.on("newUser", (data) => {
-        idList[data["user"]] = socket.id
+        idList[socket.id] = data["user"]
         console.log(idList)
 
-        io.emit("newUserResponse", Object.keys(idList))
+        io.emit("newUserResponse",
+{usernames:Object.values(idList)})
     });
 
     socket.on('sendMessage', (message) => {
@@ -34,8 +38,11 @@ io.on('connection', (socket) => {
   
     socket.on('disconnect', () => {
       console.log('user disconnected');
-      delete idList[Object.keys(idList).find(key => 
-    idList[key] == socket.id)]
+      delete idList[socket.id]
+      placeList.splice(placeList.indexOf(socket.id, 1))
+
+      io.emit("newUserResponse",
+{usernames:Object.values(idList)})
     });
   });
 
