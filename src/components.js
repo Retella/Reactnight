@@ -23,7 +23,7 @@ useEffect(() => {
 const colors = ["red",
   "darkOrchid",
   "green", "blue", "orange",
-  "pink", "gold", "peru",
+  "HotPink", "gold", "peru",
   "skyblue", "palegreen"
  ]
 

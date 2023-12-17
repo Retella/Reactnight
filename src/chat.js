@@ -4,15 +4,20 @@ import {useEffect} from "react";
 
 export default function ChatApp(props) {
 
- const [messages, changeMsg] =
- useState([["Hi","guy1"],["Yo","guy2"]]);
-const [damsg, setdamsg] = useState("")
+ const [messages, changeMsg] = useState([])
+ const [damsg, setdamsg] = useState("")
 
 useEffect(() => {
  props.socket.on("message", (data) => {
-  changeMsg((a) => [...a, [data["text"], data["author"]]]);
+  changeMsg((a) => [...a, [data["text"], data["author"],
+data["index"]]]);
  })
+ return () => props.socket.off("message")
 }, [messages])
+
+const colors = ["LightCoral","Plum","MediumSpringGreen",
+"MediumTurquoise","Moccasin","Pink","Khaki","Tan",
+"PowderBlue","Aquamarine"]
 
 const sendMsg = () => {
 if (damsg != "") {
@@ -22,9 +27,13 @@ setdamsg("")
 }
 
  const msgArr = messages.map((
- m) => 
+ m) =>
   <
-  div id = "msg" > < p id =
+  div id = "msg" style={
+{
+backgroundColor: colors[m[2]]
+}
+} > < p id =
   "msgText" > {
    m[0]
   } <

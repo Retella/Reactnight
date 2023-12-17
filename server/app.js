@@ -28,8 +28,8 @@ io.on('connection', (socket) => {
     });
 
     socket.on('sendMessage', (message) => {
-        io.emit('message', 
-{text:message["text"], author:idList[socket.id]}); // Broadcast the message to all connected clients
+        io.emit('message',
+{text:message["text"], author:idList[socket.id], index:Object.keys(idList).indexOf(socket.id)});
     });
 
     socket.on('disconnect', () => {

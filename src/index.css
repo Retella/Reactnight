@@ -16,8 +16,10 @@ body {
 display: flex;
 justify-content: space-evenly;
 
-background-color: Dimgrey;
+background-color: Grey;
+border-radius: 10px;
 
+margin-top: 10%
 }
 
 #player {
@@ -47,8 +49,10 @@ justify-content: flex-start;
  
  background-color: Lightgrey;
  
- height: auto;
+ height: 40vh;
  width: auto;
+
+overflow-y: auto;
 }
 
 #textBox {
