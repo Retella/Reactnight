@@ -13,18 +13,10 @@ const socket = socketIO.connect('http://localhost:5001');
 
 export default function App() {
 
- const [daplace, setPlace] = useState(0)
-
- useEffect(() => {
-  socket.on("newGuy", (data) => {
-   setPlace(data["place"])
- })
-})
-
   return (<div >
    <
    h1 > MINDNIGHT < /h1>  <
-  PlayerApp maplace={daplace} socket={socket}/ >
+  PlayerApp socket={socket}/ >
    <
    ChatApp socket={socket}/ >
    <

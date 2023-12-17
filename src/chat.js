@@ -10,7 +10,7 @@ const [damsg, setdamsg] = useState("")
 
 useEffect(() => {
  props.socket.on("message", (data) => {
-  changeMsg((a) => [...a, [data["text"], "guester"]]);
+  changeMsg((a) => [...a, [data["text"], data["author"]]]);
  })
 }, [messages])
 

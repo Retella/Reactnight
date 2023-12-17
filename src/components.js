@@ -6,12 +6,17 @@ export default function PlayerApp(props) {
 
 const [daname, setName] = useState("Esperando...")
 const [nSelected, select] = useState(false)
-const [users, setUsers] =
-useState(Array.apply(null, Array(10)).map(_ => 'Esperando...'))
+const [users, setUsers] = useState([])
+const [queque, setQueque] = useState(0)
+
+useEffect(() => {
+ props.socket.emit("newUser", {user:"Esperando..."})
+}, [])
 
 useEffect(() => {
  props.socket.on("newUserResponse", (data) => {
    setUsers(data["usernames"])
+   setQueque(data["ids"].indexOf(props.socket.id))
  })
 })
 
@@ -32,8 +37,6 @@ const sendUser = () => {
  for (let i = 0; i < users.length; i +=
   1) {
 
- const userIndex = (i < props.maplace - 1)? i:i+1
-
  let elem = <
    div id = "player" class="p{i}"
    style = {
@@ -42,10 +45,10 @@ const sendUser = () => {
      width: 100/props.pNum + "%"
     }
    } > < p > <
-   strong > {users[userIndex]} <
+   strong > {users[i]} <
    /strong> < /p > < /
    div >
-  if (i == props.maplace - 1) {
+  if (i == queque) {
 
  let unMenu = <div><input placeholder="Introduce tu nombre"
 onChange={(e) => setName(e.target.value)}/><button
