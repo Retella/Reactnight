@@ -9,7 +9,7 @@ import PlayerApp from "./components";
 import ChatApp from "./chat";
 
 import socketIO from 'socket.io-client';
-const socket = socketIO.connect('http://localhost:5001');
+const socket = socketIO.connect('http://reactnight.onrender.com');
 
 export default function App() {
 
