@@ -1,4 +1,3 @@
-
 h1 {
  display: flex;
  flex-direction: column;
@@ -126,4 +125,26 @@ justify-content: space-between;
 
  text-align: center;
  align-items: center;
+}
+
+#selectingDiv {
+ background-color: AntiqueWhite;
+ color: black;
+ width: 100%;
+ height: 3hv;
+
+ display:flex;
+ justify-content:center;
+ alignItems:center;
+}
+
+#selectedDiv {
+ background-color: yellow;
+ width: 100%;
+ height: 3hv;
+}
+
+#sendButton {
+ width: 100%;
+ height: 4hv;
 }
