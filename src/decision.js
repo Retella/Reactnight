@@ -10,8 +10,6 @@ const [choosing, setChoosing] = useState(false)
 const [voting, setVoting] = useState(false)
 const [started, setStarted] = useState(false)
 const [ready, setReady] = useState(false)
-const [selected, setSelected] = useState([])
-const [queque, setQueque] = useState(0)
 
 useEffect(() => {
  props.socket.on("gameStart", (data) => {
@@ -23,26 +21,12 @@ useEffect(() => {
    setVoting(true)
  })
 
- props.socket.on("askChoosing", (data) => {
-  setSelected(data["idxs"])
-  if (isSelected(queque)) {
-   setChoosing(true)
+ props.socket.on("askChoosing", () => {
+  for (let i of props.selected) {
+   if (i == props.queque) {setChoosing(true)}
   }
- })
-
- props.socket.on("newUserResponse", (data) => {
-   setQueque(data["ids"].indexOf(props.socket.id))
  })
 })
-
-const isSelected = (idx) => {
- for (const i of selected) {
-  if (i == idx) {
-   return true
-  }
- }
- return false
-}
 
 let hackcss = {opacity:0.2}
 let agentcss = {opacity:0.2}

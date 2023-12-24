@@ -6,27 +6,15 @@ export default function PlayerApp(props) {
 
 const [daname, setName] = useState("Esperando...")
 const [nSelected, select] = useState(false)
-const [users, setUsers] = useState([])
-const [queque, setQueque] = useState(0)
 const [selecting, setSelecting] = useState(-1)
-const [selected, setSelected] = useState([])
 
 useEffect(() => {
  props.socket.emit("newUser", {user:"Esperando..."})
 }, [])
 
 useEffect(() => {
- props.socket.on("newUserResponse", (data) => {
-   setUsers(data["usernames"])
-   setQueque(data["ids"].indexOf(props.socket.id))
- })
-
  props.socket.on("selectTime", (data) => {
    setSelecting(data["idx"])
- })
-
- props.socket.on("selectedResponse", (data) => {
-   setSelected(data["idxs"])
  })
 })
 
@@ -43,13 +31,13 @@ const sendUser = () => {
 }
 
 const selectUser = (classer) => {
- if (selecting == queque) {
+ if (selecting == props.queque) {
   props.socket.emit("sendSelected",{classNum:classer})
  }
 }
 
 const isSelected = (idx) => {
- for (const i of selected) {
+ for (const i of props.selected) {
   if (i == idx) {
    return true
   }
@@ -59,7 +47,7 @@ const isSelected = (idx) => {
 
  var arr = []
 
- for (let i = 0; i < users.length; i +=
+ for (let i = 0; i < props.users.length; i +=
   1) {
 
  const className = "p" + i
@@ -82,13 +70,12 @@ if (i == selecting) {
    style = {
     {
      backgroundColor: colors[i],
-     width: 100/props.pNum + "%"
     }
    } onClick={() => {selectUser(className)}} > {yellowSq} < p > <
-   strong > {users[i]} <
+   strong > {props.users[i]} <
    /strong> < /p > < /
    div >
-  if (i == queque) {
+  if (i == props.queque) {
 
  let  unMenu = <div><input placeholder="Introduce tu nombre"
 onChange={(e) => setName(e.target.value)}/><button
@@ -102,7 +89,6 @@ onClick={sendUser}>Seleccionar</button></div>
    style = {
     {
      backgroundColor: colors[i],
-     width: 100/props.pNum + "%"
     }
    } onClick={() => {selectUser(className)}} > {yellowSq} {unMenu} < p > <
    strong > {daname} <
@@ -113,7 +99,7 @@ onClick={sendUser}>Seleccionar</button></div>
  }
 
  let selectButton = <div style={{display:"none"}}></div>
- if (selecting == queque) {
+ if (selecting == props.queque) {
   selectButton = <button id="sendButton" onClick={() => {
  props.socket.emit("sendChosenPlayers", null)
 }}>Seleccionar jugadores</button>
