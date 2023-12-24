@@ -23,7 +23,8 @@ useEffect(() => {
    setVoting(true)
  })
 
- props.socket.on("askChoosing", () => {
+ props.socket.on("askChoosing", (data) => {
+  setSelected(data["idxs"])
   if (isSelected(queque)) {
    setChoosing(true)
   }
@@ -32,15 +33,11 @@ useEffect(() => {
  props.socket.on("newUserResponse", (data) => {
    setQueque(data["ids"].indexOf(props.socket.id))
  })
-
- props.socket.on("selectedResponse", (data) => {
-   setSelected(data["idxs"])
- })
 })
 
 const isSelected = (idx) => {
- for (const i in selected) {
-  if (selected[i] == idx) {
+ for (const i of selected) {
+  if (i == idx) {
    return true
   }
  }

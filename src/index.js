@@ -9,7 +9,7 @@ import ChatApp from "./chat";
 import ChooseApp from "./decision";
 
 import socketIO from 'socket.io-client';
-const socket = socketIO.connect('https://serverreactnight.onrender.com');
+const socket = socketIO.connect('http://localhost:5001');
 
 export default function App() {
 

@@ -115,10 +115,10 @@ io.on('connection', (socket) => {
        if (voters[1] > voters[0]) {
         chooses = 0
         isHacked = false
-        io.emit("askChoosing", null)
+        io.emit("askChoosing", {idxs:selectedList})
        }
        else {
-        if (selectIdx >= Object.keys(rolesObj)) {
+        if (selectIdx >= Object.keys(idList).length) {
          selectIdx = 0
         }
         else {
@@ -134,12 +134,12 @@ io.on('connection', (socket) => {
        if (!data["dec"]) {
         isHacked = true
        }
-       if (chooses = Object.keys(rolesObj).length) {
+       if (chooses == selectedList.length) {
         nodes.push([Object.values(idList)[selectIdx],
  selectedList, isHacked])
         io.emit("responseNodes", {noders:nodes})
 
-        if (selectIdx >= Object.keys(rolesObj)) {
+        if (selectIdx >= Object.keys(idList).length) {
          selectIdx = 0
         }
         else {

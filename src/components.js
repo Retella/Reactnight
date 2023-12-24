@@ -49,8 +49,8 @@ const selectUser = (classer) => {
 }
 
 const isSelected = (idx) => {
- for (const i in selected) {
-  if (selected[i] == idx) {
+ for (const i of selected) {
+  if (i == idx) {
    return true
   }
  }
