@@ -23,10 +23,11 @@ const rolesObj = {}
 let votes = {}
 let chooses = 0
 let isHacked = false
-const nodes = []
+let nodes = []
 
 let selectIdx = 0
-const selectedList = []
+let selectedList = []
+let selectNum = -1
 
 function logger() {
  console.log(`${"-".repeat(50)}`)
@@ -34,6 +35,7 @@ function logger() {
  console.log(`ReadyList: ${JSON.stringify(readyList)}`)
  console.log(`HackerList: ${JSON.stringify(rolesObj)}`)
  console.log(`SelectedList: ${selectedList}`)
+ console.log(`Nodes: ${nodes}`)
 }
 
 function getRndInteger(min, max) {
@@ -88,6 +90,16 @@ io.on('connection', (socket) => {
     socket.on("sendSelected", (data) =>{
      const cNum = data["classNum"][1]
 
+     if (Object.keys(idList).length == 3) {
+      selectNum = 2
+     }
+     else if (nodes.length % 2 == 0) {
+      selectNum = Object.keys(idList).length/2
+     }
+     else {
+      selectNum = Math.round(Object.keys(idList).length/2-1)
+     }
+
      if (!selectedList.includes(cNum)) {
       selectedList.push(cNum)
      }
@@ -95,12 +107,19 @@ io.on('connection', (socket) => {
       selectedList.splice(selectedList.indexOf(cNum), 1)
      }
 
+     if (selectedList.length > selectNum) {
+      selectedList.splice(0, 1)
+     }
+
      io.emit("selectedResponse", {idxs:selectedList})
+     logger()
     })
 
     socket.on("sendChosenPlayers", () => {
-      votes = {}
-      io.emit("askVoting", null)
+      if (selectedList.length == selectNum) {
+       votes = {}
+       io.emit("askVoting", null)
+      }
     })
 
     socket.on("sendDecisionVote", (data) => {
@@ -108,22 +127,43 @@ io.on('connection', (socket) => {
 
       if (Object.keys(votes).length == Object.keys(rolesObj).length) {
        const voters = [0, 0]
-       for (const i of Object.values(votes)) {
-        if (i) {voters[1] += 1}
-        else {voters[0] += 1}
+
+       const allies = []
+       const opposed = []
+       for (const [guy, vote] of Object.entries(votes)) {
+        if (vote) {
+         voters[1] += 1
+         allies.push(idList[guy])
+        }
+        else {
+         voters[0] += 1
+         opposed.push(idList[guy])
+        }
        }
        if (voters[1] > voters[0]) {
+        io.emit("message", {
+text:`Se ha aprobado la votación ||| Aprobado por: ${allies} ||| Denegado por: ${opposed}`,
+author: "Sistema",
+id: "-1"
+})
         chooses = 0
         isHacked = false
-        io.emit("askChoosing", {idxs:selectedList})
+        io.emit("askChoosing", null)
        }
        else {
-        if (selectIdx >= Object.keys(idList).length) {
+        io.emit("message", {
+text:`Se ha denegado la votación ||| Aprobado por: ${allies} ||| Denegado por: ${opposed}`,
+author:"Sistema",
+id:-1
+})
+        if (selectIdx == Object.keys(idList).length - 1) {
          selectIdx = 0
         }
         else {
          selectIdx += 1
         }
+        selectedList = []
+        io.emit("selectedResponse", {idxs:selectedList})
         io.emit("selectTime", {idx:selectIdx})
        }
       }
@@ -134,19 +174,39 @@ io.on('connection', (socket) => {
        if (!data["dec"]) {
         isHacked = true
        }
+
        if (chooses == selectedList.length) {
+        const names =
+selectedList.map((a) => Object.values(idList)[a])
         nodes.push([Object.values(idList)[selectIdx],
- selectedList, isHacked])
+ names, isHacked])
         io.emit("responseNodes", {noders:nodes})
 
-        if (selectIdx >= Object.keys(idList).length) {
+        const points = [0, 0]
+        for (const i of nodes) {
+         if (i[2]) {points[0] += 1}
+         if (!i[2]) {points[1] += 1}
+        }
+        if (points[0] == 3) {
+         io.emit("matchWon", {dec:false})
+         return
+        }
+        if (points[1] == 3) {
+         io.emit("matchWon", {dec:true})
+         return
+        }
+
+        if (selectIdx == Object.keys(idList).length - 1) {
          selectIdx = 0
         }
         else {
          selectIdx += 1
         }
+        selectedList = []
+        io.emit("selectedResponse", {idxs:selectedList})
         io.emit("selectTime", {idx:selectIdx})
        }
+       logger()
      })
 
     socket.on('disconnect', () => {
@@ -157,7 +217,13 @@ io.on('connection', (socket) => {
 
       io.emit("newUserResponse",
 {usernames:Object.values(idList),ids:Object.keys(idList)})
-    });
+
+      if (Object.keys(idList).length <= 1) {
+       nodes = []
+       selectIdx = 0
+       selectNum = -1
+      }
+});
   });
 
 const PORT = process.env.PORT || 5001;

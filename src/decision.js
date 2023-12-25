@@ -10,6 +10,8 @@ const [choosing, setChoosing] = useState(false)
 const [voting, setVoting] = useState(false)
 const [started, setStarted] = useState(false)
 const [ready, setReady] = useState(false)
+const [won, setWon] = useState(false)
+const [winner, setWinner] = useState(false)
 
 useEffect(() => {
  props.socket.on("gameStart", (data) => {
@@ -22,11 +24,25 @@ useEffect(() => {
  })
 
  props.socket.on("askChoosing", () => {
-  for (let i of props.selected) {
-   if (i == props.queque) {setChoosing(true)}
+  for (const s in props.selected) {
+   if (props.selected[s] == props.queque) {
+    setChoosing(true)
+   }
   }
  })
+
+ props.socket.on("matchWon", (data) => {
+  setWon(true)
+  setWinner(data["dec"])
+ })
 })
+
+if (won) {
+const wText = (winner)? "Agentes ganan":"Hackers ganan"
+ return <div id="wonDiv" style={{
+backgroundColor: (winner)? "green":"red",
+}}><font size="20">{wText}</font></div>
+}
 
 let hackcss = {opacity:0.2}
 let agentcss = {opacity:0.2}
@@ -81,14 +97,22 @@ const text = (ready)? "Preparado":"No preparado"
 
 const readyColor = (ready)? "Orange":"LightSalmon"
 
+let readyOpacity = 1
+if (props.users[props.queque] == "Esperando...") {
+ readyOpacity = 0.4
+}
+
 return (
  <div id="readyDiv" style={
 {
  backgroundColor: readyColor,
+ opacity: readyOpacity
 }
 } onClick={()=>{
-props.socket.emit("sendReady", {bool:!ready})
-setReady(!ready)
+if (props.users[props.queque] != "Esperando...") {
+ props.socket.emit("sendReady", {bool:!ready})
+ setReady(!ready)
+}
 }}
 ><strong><font size='20'>{text}</font></strong></div>
 )

@@ -7,6 +7,7 @@ import "./index.css";
 import PlayerApp from "./components";
 import ChatApp from "./chat";
 import ChooseApp from "./decision";
+import NodesApp from "./noders";
 
 import socketIO from 'socket.io-client';
 const socket = socketIO.connect('http://localhost:5001');
@@ -29,10 +30,11 @@ useEffect(() => {
 
   return (
    <div >
-   <h1 > MINDNIGHT < /h1>
+   < NodesApp socket={socket} users={users}/>
    < ChatApp socket={socket} / >
    < PlayerApp socket={socket} users={users} queque={queque} selected={selected} / >
-   < ChooseApp socket={socket} queque={queque} selected={selected}/ >
+   < ChooseApp socket={socket} users={users} queque={queque} selected={selected}/ >
+   <p style={{color:"white"}}><font size="20">{queque} ||| {selected}</font></p>
    </div >)
  }
 

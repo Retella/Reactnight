@@ -26,8 +26,10 @@ const colors = ["red",
  ]
 
 const sendUser = () => {
- select(true)
- props.socket.emit("newUser", {user: daname})
+ if (daname != "Esperando...") {
+  select(true)
+  props.socket.emit("newUser", {user: daname})
+ }
 }
 
 const selectUser = (classer) => {
