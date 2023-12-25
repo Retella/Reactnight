@@ -23,12 +23,13 @@ useEffect(() => {
    setVoting(true)
  })
 
- props.socket.on("askChoosing", () => {
-  for (const s in props.selected) {
-   if (props.selected[s] == props.queque) {
-    setChoosing(true)
+ props.socket.on("askChoosing", (data) => {
+   setChoosing(false)
+   for (const i of props.selected) {
+    if (i == props.queque) {
+     setChoosing(true)
+    }
    }
-  }
  })
 
  props.socket.on("matchWon", (data) => {

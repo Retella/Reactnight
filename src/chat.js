@@ -15,6 +15,23 @@ data["index"]]]);
  return () => props.socket.off("message")
 }, [messages])
 
+useEffect(() => {
+ props.socket.on("gameStart", (data) => {
+  const hList = []
+  for (const i of Object.keys(data["roles"])) {
+   if (data["roles"][i] && i != props.socket.id) {
+    hList.push(data["names"][i])
+   }
+  }
+  if (data["roles"][props.socket.id]) {
+   changeMsg((a) => [...a, [`Eres un hacker. Tus compañeros son: ${hList}`, "Sistema", -1]])
+  }
+  else {
+   changeMsg((a) => [...a, ["Eres un agente", "Sistema", -1]])
+  }
+ })
+}, [messages])
+
 const colors = ["LightCoral","Plum","MediumSpringGreen",
 "MediumTurquoise","Moccasin","Pink","Khaki","Tan",
 "PowderBlue","Aquamarine"]
@@ -44,7 +61,7 @@ backgroundColor: colors[m[2]]
   div id = "messages" > {
    msgArr
   } < /div > <
- input id = "textBox" 
+ input id = "textBox"
 onChange={(e) => setdamsg(e.target.value)}
 value={damsg}/>
   <

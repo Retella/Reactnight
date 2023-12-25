@@ -82,7 +82,7 @@ io.on('connection', (socket) => {
 
      logger()
 
-     io.emit("gameStart", {roles:rolesObj})
+     io.emit("gameStart", {roles:rolesObj, names:idList})
 
      io.emit("selectTime", {idx:selectIdx})
     })
@@ -90,14 +90,14 @@ io.on('connection', (socket) => {
     socket.on("sendSelected", (data) =>{
      const cNum = data["classNum"][1]
 
-     if (Object.keys(idList).length == 3) {
+     if (Object.keys(rolesObj).length == 3) {
       selectNum = 2
      }
      else if (nodes.length % 2 == 0) {
-      selectNum = Object.keys(idList).length/2
+      selectNum = Math.floor(Object.keys(rolesObj).length/2)
      }
      else {
-      selectNum = Math.round(Object.keys(idList).length/2-1)
+      selectNum = Math.floor(Object.keys(rolesObj).length/2 + 1)
      }
 
      if (!selectedList.includes(cNum)) {

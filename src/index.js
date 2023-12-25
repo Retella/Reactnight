@@ -10,7 +10,7 @@ import ChooseApp from "./decision";
 import NodesApp from "./noders";
 
 import socketIO from 'socket.io-client';
-const socket = socketIO.connect('http://localhost:5001');
+const socket = socketIO.connect('https://serverreactnight.onrender.com/');
 
 export default function App() {
 
@@ -34,7 +34,6 @@ useEffect(() => {
    < ChatApp socket={socket} / >
    < PlayerApp socket={socket} users={users} queque={queque} selected={selected} / >
    < ChooseApp socket={socket} users={users} queque={queque} selected={selected}/ >
-   <p style={{color:"white"}}><font size="20">{queque} ||| {selected}</font></p>
    </div >)
  }
 
