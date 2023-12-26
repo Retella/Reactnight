@@ -30,6 +30,7 @@ useEffect(() => {
    changeMsg((a) => [...a, ["Eres un agente", "Sistema", -1]])
   }
  })
+ return () => props.socket.off("gameStart")
 }, [messages])
 
 const colors = ["LightCoral","Plum","MediumSpringGreen",

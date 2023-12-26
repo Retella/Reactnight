@@ -10,7 +10,7 @@ import ChooseApp from "./decision";
 import NodesApp from "./noders";
 
 import socketIO from 'socket.io-client';
-const socket = socketIO.connect('https://serverreactnight.onrender.com/');
+const socket = socketIO.connect('http://127.0.0.1:5001');
 
 export default function App() {
 
