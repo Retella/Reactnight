@@ -22,6 +22,7 @@ const rolesObj = {}
 
 let votes = {}
 let chooses = 0
+let waitChoosing = false
 let isHacked = false
 let nodes = []
 
@@ -85,9 +86,12 @@ io.on('connection', (socket) => {
      io.emit("gameStart", {roles:rolesObj, names:idList})
 
      io.emit("selectTime", {idx:selectIdx})
+     waitChoosing = false
     })
 
     socket.on("sendSelected", (data) =>{
+     if (waitChoosing) {return}
+
      const cNum = data["classNum"][1]
 
      if (Object.keys(rolesObj).length == 3) {
@@ -119,6 +123,7 @@ io.on('connection', (socket) => {
       if (selectedList.length == selectNum) {
        votes = {}
        io.emit("askVoting", null)
+       waitChoosing = true
       }
     })
 
@@ -165,6 +170,7 @@ id:-1
         selectedList = []
         io.emit("selectedResponse", {idxs:selectedList})
         io.emit("selectTime", {idx:selectIdx})
+        waitChoosing = false
        }
       }
      })
@@ -205,6 +211,7 @@ selectedList.map((a) => Object.values(idList)[a])
         selectedList = []
         io.emit("selectedResponse", {idxs:selectedList})
         io.emit("selectTime", {idx:selectIdx})
+        waitChoosing = false
        }
        logger()
      })
